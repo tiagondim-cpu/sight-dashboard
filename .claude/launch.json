@@ -1,0 +1,53 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "Setup — Instalar dependências",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["setup.py"],
+      "port": null
+    },
+    {
+      "name": "Save Session — Login no LinkedIn",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["main.py", "save-session"],
+      "port": null
+    },
+    {
+      "name": "Pipeline Completo — discover → validate → outreach → monitor",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["main.py", "run-all"],
+      "port": null
+    },
+    {
+      "name": "Discovery — Buscar perfis via Dorking",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["main.py", "discover"],
+      "port": null
+    },
+    {
+      "name": "Validate — Qualificar perfis pelo ICP",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["main.py", "validate"],
+      "port": null
+    },
+    {
+      "name": "Outreach — Enviar convites de conexão",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["main.py", "outreach"],
+      "port": null
+    },
+    {
+      "name": "Monitor — Checar aceites e enviar DM1",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["main.py", "monitor"],
+      "port": null
+    },
+    {
+      "name": "Status — Ver CRM e limites do dia",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["main.py", "status"],
+      "port": null
+    }
+  ]
+}

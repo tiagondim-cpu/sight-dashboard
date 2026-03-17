@@ -1,0 +1,92 @@
+# ─── ICP (Ideal Customer Profile) ───────────────────────────────────────────
+icp:
+  cargos:
+    - CEO
+    - Diretor
+    - VP
+    - Head
+    - Gerente de Inovação
+    - CTO
+    - COO
+    - Founder
+    - Co-Founder
+  tamanho_empresa:
+    min: 50
+    max: 5000
+  localizacao: "São Paulo"
+  keywords_extras:
+    - inovação
+    - transformação digital
+    - tecnologia
+
+# ─── Mensagens ───────────────────────────────────────────────────────────────
+mensagens:
+  nota_conexao: |
+    Olá {nome}, vi seu trabalho em {empresa} e achei muito relevante.
+    Gostaria de conectar e trocar ideias sobre {tema}.
+  dm1: |
+    Oi {nome}, obrigado por aceitar a conexão!
+    Trabalho com {oferta} e acredito que pode fazer sentido para o momento de {empresa}.
+    Podemos marcar 20 minutos essa semana?
+
+# ─── Limites de segurança diários ────────────────────────────────────────────
+limites:
+  conexoes_por_dia: 15
+  visitas_por_dia: 50
+  mensagens_por_dia: 20
+  horas_ativas:
+    inicio: 8
+    fim: 18
+
+# ─── Delays (segundos) ───────────────────────────────────────────────────────
+delays:
+  entre_visitas:
+    base: 300       # 5 minutos
+    variacao: 300   # +0 a 5 min aleatório
+  entre_cliques:
+    base: 5
+    variacao: 55    # base + random(10,60)s conforme spec
+  apos_conexao:
+    base: 3600      # 1 hora
+    variacao: 7200  # +0 a 2h aleatório
+  dm_apos_conexao_horas:
+    min: 2
+    max: 24
+
+# ─── Busca (Discovery) ───────────────────────────────────────────────────────
+busca:
+  max_resultados_por_query: 20
+  queries_templates:
+    - 'site:linkedin.com/in "{cargo}" "{localizacao}"'
+    - 'site:linkedin.com/in "{cargo}" "{keyword}" "{localizacao}"'
+
+# ─── IA ──────────────────────────────────────────────────────────────────────
+ai:
+  habilitado: true
+  modelos:
+    qualificacao: "gemini-2.0-flash-thinking-exp"
+    mensagens: "gemini-2.0-flash-thinking-exp"
+    filtro_discovery: "gemini-2.0-flash"
+    intent: "gemini-2.0-flash"
+
+  # Descreva seu ICP em linguagem natural — o modelo usa isso para qualificar
+  icp_descricao: |
+    Buscamos tomadores de decisão em empresas de médio a grande porte que estejam
+    ativamente buscando soluções de inovação e transformação digital.
+    O lead ideal tem poder de compra ou influência sobre orçamento e trabalha em
+    empresa com estrutura para investir em nossa solução. Priorizamos setores de
+    tecnologia, serviços financeiros, varejo e indústria.
+
+  # Descreva sua oferta — usada para personalizar as mensagens
+  oferta_descricao: |
+    Somos uma consultoria de inovação que ajuda empresas a escalar times de tecnologia
+    e implementar processos de transformação digital com resultados mensuráveis em 90 dias.
+
+  # Score mínimo para qualificar o lead (0-100)
+  score_minimo: 60
+
+# ─── Planilha (Exportação) ───────────────────────────────────────────────────
+planilha:
+  formato: xlsx            # xlsx ou csv
+  caminho: data/crm_export.xlsx
+  auto_sync: true          # sincroniza automaticamente após cada operação
