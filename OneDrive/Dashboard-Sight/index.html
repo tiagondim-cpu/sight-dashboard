@@ -628,13 +628,13 @@ function compute(li, tally) {
   const days = Math.max(1, Math.floor((today - CFG.START) / 86400000));
   const isTrue = v => (v||'').toString().toLowerCase() === 'true';
 
-  // Deduplicar Tally por Submission ID (evita duplicatas do sync inicial)
+  // Deduplicar Tally — integração nativa pode não ter 'Submission ID'
+  const idCol = [T.submId, 'Respondent ID', 'Submission ID', 'id', 'ID']
+    .find(c => tally.some(r => r[c] && r[c].trim()));
   const seen = new Set();
-  const tallyUniq = tally.filter(r => {
-    const id = r[T.submId];
-    if (!id || seen.has(id)) return false;
-    seen.add(id); return true;
-  });
+  const tallyUniq = idCol
+    ? tally.filter(r => { const id = r[idCol]; if (!id || seen.has(id)) return false; seen.add(id); return true; })
+    : [...new Map(tally.map(r => { const k = Object.values(r).slice(0,4).join('|'); return [k, r]; })).values()];
 
   // LinkedIn funnel
   const liSent = li.filter(r => isTrue(r[L.sent]));
@@ -642,8 +642,9 @@ function compute(li, tally) {
   const liResp = li.filter(r => isTrue(r[L.replied]));
   const prospects = liSent.length;
   const connected = liConn.length;
-  const survey    = liResp.length;
-  const noReply   = connected - survey;
+  // Usar o maior entre LinkedIn marcados e Tally recebidos (fonte mais atualizada)
+  const survey    = Math.max(liResp.length, tallyUniq.length);
+  const noReply   = Math.max(0, connected - survey);
 
   const rConn     = pct(connected, prospects);
   const rSurvConn = pct(survey, connected);
@@ -689,10 +690,12 @@ function compute(li, tally) {
     medCts   = countSingle(tallyUniq, T.medicao);
     dadoCts  = countSingle(tallyUniq, T.dado);
     rmCts    = countSingle(tallyUniq, T.rm);
-    // Cadência por semana ISO
+    // Cadência por semana ISO — detectar coluna de timestamp
+    const tsCol = [T.ts, 'Submitted at', 'Date', 'Timestamp', 'Data', 'submitted_at']
+      .find(c => tallyUniq.some(r => r[c] && !isNaN(new Date(r[c])))) || T.ts;
     const wks = {};
     tallyUniq.forEach(r => {
-      const d = new Date(r[T.ts]);
+      const d = new Date(r[tsCol]);
       if (isNaN(d)) return;
       const day = d.getDay(), diff = day === 0 ? -6 : 1 - day;
       const mon = new Date(d); mon.setDate(d.getDate() + diff);
