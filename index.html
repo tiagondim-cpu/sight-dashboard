@@ -153,7 +153,6 @@ footer em { color: var(--y); font-style: normal; font-weight: 700; }
       <button class="nav-tab" onclick="show('respondentes')">Respondentes</button>
       <button class="nav-tab" onclick="show('dores')">Dores Validadas</button>
       <button class="nav-tab" onclick="show('leads')">Leads</button>
-      <button class="nav-tab" onclick="show('acoes')">Ações</button>
     </div>
     <div class="nav-status">
       <div class="s-dot loading" id="s-dot"></div>
@@ -472,94 +471,6 @@ footer em { color: var(--y); font-style: normal; font-weight: 700; }
 
 </div><!-- /leads -->
 
-<!-- ══ AÇÕES (100% ESTÁTICO) ════════════════════════════════════════════ -->
-<div id="acoes" class="page">
-
-  <div class="sh"><span class="sh-title">Planos de Ação</span><span class="sh-sub">Ordenados por urgência</span></div>
-
-  <div class="g g2">
-    <div class="action">
-      <div class="action-head">
-        <div class="action-num an-y">1</div>
-        <div>
-          <div class="action-title">Contatar Robson Vianna — Riachuelo</div>
-          <div class="action-desc">Único que aceitou reunião de 30 min</div>
-        </div>
-        <span class="urgency-tag urg-now">Hoje</span>
-      </div>
-      <div class="action-body"><ul>
-        <li>WhatsApp: +55 11 9 5596-2765 — apresentar o Sight brevemente</li>
-        <li>Propor reunião de 30 min no próximo dia útil</li>
-        <li>Riachuelo = 200+ lojas → caso de uso de alto impacto para validação</li>
-      </ul></div>
-    </div>
-    <div class="action">
-      <div class="action-head">
-        <div class="action-num an-y">2</div>
-        <div>
-          <div class="action-title">Enviar benchmark para os leads</div>
-          <div class="action-desc">Prometido no survey · converter em reunião</div>
-        </div>
-        <span class="urgency-tag urg-now">Esta semana</span>
-      </div>
-      <div class="action-body"><ul>
-        <li>Montar relatório com as respostas (foi prometido)</li>
-        <li>Personalizar: 1 dado do segmento de cada um</li>
-        <li>CTA: "análise personalizada da sua empresa — 20 min"</li>
-        <li>⚠️ Checar e-mail do Ricardo Camhaji (Anacapri) — .con</li>
-      </ul></div>
-    </div>
-    <div class="action">
-      <div class="action-head">
-        <div class="action-num an-y">3</div>
-        <div>
-          <div class="action-title">Reativar conexões sem resposta</div>
-          <div class="action-desc">222 × 10,1% = ~22 respostas → ~78% da meta</div>
-        </div>
-        <span class="urgency-tag urg-now">Esta semana</span>
-      </div>
-      <div class="action-body"><ul>
-        <li>Follow-up com link do survey para as conexões sem resposta</li>
-        <li>Gancho: "já temos respostas de Riachuelo, Renner, C&A e Marisa"</li>
-        <li>Usar Mensagem C (validada e em uso)</li>
-        <li>Esta ação sozinha pode levar de 25 → ~47 respostas</li>
-      </ul></div>
-    </div>
-    <div class="action">
-      <div class="action-head">
-        <div class="action-num an-d">4</div>
-        <div>
-          <div class="action-title">Reformular CTA de reunião no Tally</div>
-          <div class="action-desc">1/25 aceitaram (4%) — conversão quebrada</div>
-        </div>
-        <span class="urgency-tag urg-week">Próxima versão</span>
-      </div>
-      <div class="action-body"><ul>
-        <li>Atual: "Aceito o convite para conversa de 30 min" → custo percebido alto</li>
-        <li>Novo: "Quero diagnóstico gratuito da minha operação"</li>
-        <li>Ou: "Análise personalizada da [empresa] — 20 min"</li>
-        <li>Testar nova versão nas próximas ativações · meta: 15%+ de aceite</li>
-      </ul></div>
-    </div>
-    <div class="action" style="grid-column: 1 / -1;">
-      <div class="action-head">
-        <div class="action-num an-g">5</div>
-        <div>
-          <div class="action-title">Fechar as 60 respostas</div>
-          <div class="action-desc">Ações 2+3 geram ~22 → restam ~13 novas para chegar na meta</div>
-        </div>
-        <span class="urgency-tag urg-mid">Médio prazo</span>
-      </div>
-      <div class="action-body"><ul>
-        <li>Ações 2 e 3: ~22 respostas estimadas → chegamos em ~47 (78%) sem prospectar ninguém novo</li>
-        <li>Para as ~13 restantes: prospecção contínua com Mensagem C</li>
-        <li>Foco: C-level e Operações em Moda/Calçados — maior taxa histórica de resposta</li>
-        <li>Alternativa: acionar rede direta (H4nds, Sekron) para indicações no varejo</li>
-      </ul></div>
-    </div>
-  </div>
-
-</div><!-- /acoes -->
 
 </div><!-- /wrap -->
 
@@ -644,7 +555,8 @@ function parseCSV(txt) {
 }
 
 async function fetchTab(tab) {
-  const url = `https://docs.google.com/spreadsheets/d/${CFG.SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(tab)}`;
+  const PUBLISHED_ID = '2PACX-1vRdEIR6QsllAodCJNVjasrbbmZOxLuV-VD6IMViFunO3oEbiy-ZlBjRvwQyREvV_rUc4vWTgGA1m0b1';
+  const url = `https://docs.google.com/spreadsheets/d/e/${PUBLISHED_ID}/pub?output=csv&sheet=${encodeURIComponent(tab)}`;
   const r = await fetch(url);
   if (!r.ok) throw new Error('HTTP ' + r.status);
   const txt = await r.text();
